@@ -62,7 +62,6 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        
         $category = ArticleCategory::find($request['category_id']);
         if (!$category) {
             return response()->json(['error' => 'Invalid category selected'], 422);

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-article-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-article-app
+  template:
+    metadata:
+      labels:
+        app: my-article-app
+    spec:
+      containers:
+      - name: php
+        image: tifarin/Article:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_DRIVER
+          value: pgsql
+        - name: DB_HOST
+          value: articledb.postgres.database.azure.com
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_DATABASE
+          value: postgres
+        - name: DB_USERNAME
+          value: latifah
+        - name: DB_PASSWORD
+          value: B4n15uma12
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-article-app-service
+spec:
+  selector:
+    app: my-article-app
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
