@@ -12,4 +12,8 @@ class Media extends Model
         'article_id',
         'url',
     ];
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
 }

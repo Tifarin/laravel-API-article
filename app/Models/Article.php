@@ -17,4 +17,8 @@ class Article extends Model
     {
         return $this->belongsTo(ArticleCategory::class);
     }
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
 }

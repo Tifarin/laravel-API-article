@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,5 @@ Route::middleware('auth:sanctum')->get('/categories/{id}', [ArticleCategoryContr
 Route::middleware('auth:sanctum')->post('/categories', [ArticleCategoryController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/categories/{id}', [ArticleCategoryController::class, 'update']);
 Route::middleware('auth:sanctum')->post('/categories/delete/{id}', [ArticleCategoryController::class, 'destroy']);
+
+Route::post('/upload-media', [MediaController::class, 'store']);

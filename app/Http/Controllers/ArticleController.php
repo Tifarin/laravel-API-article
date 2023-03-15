@@ -31,7 +31,8 @@ class ArticleController extends Controller
                 $query->where('category_id', $category->id);
             }
             
-            $articles = $query->paginate($limit, ['*'], 'page', $page);
+            // Menambahkan eager loading untuk relasi media
+            $articles = $query->with('media')->paginate($limit, ['*'], 'page', $page);
 
             return response()->json([
                 'data' => $articles,
@@ -48,7 +49,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         try {
-            $article = Article::findOrFail($id);
+            $article = Article::with('media')->findOrFail($id);
 
             return response()->json([
                 'data' => $article,
@@ -59,6 +60,7 @@ class ArticleController extends Controller
             ], 404);
         }
     }
+
 
     public function store(Request $request)
     {
@@ -129,7 +131,8 @@ class ArticleController extends Controller
 
             return response()->json([
                 'message' => 'Article created successfully',
-                'data' => $article,
+                'article' => $article,
+                'media' => $media,
             ], 201);
         } catch (\Exception $e) {
             DB::rollback();
@@ -188,7 +191,8 @@ class ArticleController extends Controller
 
             return response()->json([
                 'message' => 'Article updated successfully',
-                'data' => $article,
+                'article' => $article,
+                'media' => $media,
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();
